@@ -9,22 +9,20 @@ package sistemaacademico;
 * Observacoes:
 */
 public class Turmas extends Coisa {
-   
     int                             capacidade;
-    
     int                             ano;
     int                             semestre;
     int                             curso;
     
-    
     public Turmas(int codigo, String nomeAbreviado, String nomeCompleto, int capacidade, int ano, int semestre, int curso) {
-    	super();
+    	this.codigo = codigo;
+    	this.nomeAbreviado = nomeAbreviado;
+    	this.nomeCompleto = nomeCompleto;
     	this.capacidade = capacidade;
     	this.ano = ano;
     	this.semestre = semestre;
     	this.curso = curso;
     }
-    
 
     @Override
     public void cadastrar() {
