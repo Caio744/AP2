@@ -21,37 +21,23 @@ public class SistemaAcademico {
         // Observação: Exclua as declarações que não necessitar...
         //
         //
-        private static ArrayList <Curso>                   cursos;
-        private static ArrayList <Academico>               academicos;
-        private static ArrayList <Docente>                 docentes;
-        private static ArrayList <TecnicoAdministrativo>   tecnicosAdministrativos;
-        private static ArrayList <Disciplina>              disciplinas;
-        private static ArrayList <RegistroAcademico>       historicos;
-        //
+       
+        private static ArrayList <Turmas>  turmas;
         // Atributos auxiliares...
         //
-        private static UnidadesFederativas            unidadesFederativas;
+     
         
         
      /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {  
-        int i;
-        cursos                  = new ArrayList<>();
-        academicos              = new ArrayList<>();
-        docentes                = new ArrayList<>();
-        tecnicosAdministrativos = new ArrayList<>();
-        disciplinas             = new ArrayList<>();
-        historicos              = new ArrayList<>();
+        
+        turmas = new ArrayList<Turmas>();
         //
         // Exemplo de uso...
         //
-        unidadesFederativas       = new UnidadesFederativas();
-        for (i = 0; (i < unidadesFederativas.size()); i++) {
-            unidadesFederativas.show(i);
-        }
-        System.out.println("Fim");
+  
     }
     
 }
