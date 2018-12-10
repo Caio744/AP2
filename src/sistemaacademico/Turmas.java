@@ -1,4 +1,8 @@
 package sistemaacademico;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Wanderley de Souza Alencar
@@ -13,15 +17,17 @@ public class Turmas extends Coisa {
     int                             ano;
     int                             semestre;
     int                             curso;
-    
-    public Turmas(int codigo, String nomeAbreviado, String nomeCompleto, int capacidade, int ano, int semestre, int curso) {
-    	this.codigo = codigo;
-    	this.nomeAbreviado = nomeAbreviado;
-    	this.nomeCompleto = nomeCompleto;
-    	this.capacidade = capacidade;
-    	this.ano = ano;
-    	this.semestre = semestre;
-    	this.curso = curso;
+    private ArrayList <Turmas>  turmasCad;
+//    int codigo, String nomeAbreviado, String nomeCompleto, int capacidade, int ano, int semestre, int curso
+    public Turmas(ArrayList<Turmas> turmasCad) {
+//    	this.codigo = codigo;
+//    	this.nomeAbreviado = nomeAbreviado;
+//    	this.nomeCompleto = nomeCompleto;
+//    	this.capacidade = capacidade;
+//    	this.ano = ano;
+//    	this.semestre = semestre;
+//    	this.curso = curso;
+    	this.turmasCad = turmasCad;
     }
 
     public int getCapacidade() {
@@ -58,7 +64,8 @@ public class Turmas extends Coisa {
 
 	@Override
     public void cadastrar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		turmasCad.add(this);
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
