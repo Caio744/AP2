@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Teste {
 
@@ -32,17 +34,23 @@ public class Teste {
 	private JTextField textField_Capacidade;
 	private JTextField textField_Ano;
 	private JTextField textField_Semestre;
-	ArrayList<Turmas> ListaTurma;
-	private Component btnSalvar;
-	private Component btnCancelar;
+	private JButton btnNovo;
+	private JButton btnSalvar;
+	private JButton btnCancelar;
+	private JButton btnExcluir;
+	private JButton btnAlterar;
+	private JButton btnPesquisar;
+
+	private static  ArrayList<Turmas>  turmasCad;
+
 	
 	
 	public void LoadTable() {
 		Object colunas[] = {"Curso","Código","Nome","Abreviação","Capacidade","Ano","Semestre"};
 		DefaultTableModel modelo = new DefaultTableModel(colunas,0);
 		
-		for(int i=0; i<ListaTurma.size();i++) {
-			modelo.addRow(new Object[] {ListaTurma.get(i).getCurso(),ListaTurma.get(i).getCodigo(),ListaTurma.get(i).getNomeCompleto(),ListaTurma.get(i).getNomeAbreviado(),ListaTurma.get(i).getCapacidade(),ListaTurma.get(i).getAno(),ListaTurma.get(i).getSemestre()});
+		for(int i=0; i<turmasCad.size();i++) {
+			modelo.addRow(new Object[] {turmasCad.get(i).getCurso(),turmasCad.get(i).getCodigo(),turmasCad.get(i).getNomeCompleto(),turmasCad.get(i).getNomeAbreviado(),turmasCad.get(i).getCapacidade(),turmasCad.get(i).getAno(),turmasCad.get(i).getSemestre()});
 		}
 		table.setModel(modelo);
 	}
@@ -60,20 +68,141 @@ public class Teste {
 				}
 			}
 		});
+		turmasCad = new ArrayList<Turmas>();
+        //Turmas t = new Turmas(turmasCad);
+
 	}
 
 	/**
 	 * Create the application.
 	 */
+		
+		
 	public Teste() {
 		initialize();
-		ListaTurma = new ArrayList();
-		//btnSalvar.setEnabled(false);
-		//btnCancelar.setEnabled(false);
+		turmasCad = new ArrayList();
+		btnSalvar.setEnabled(false);
+		btnCancelar.setEnabled(false);
+		textField_Curso.setEditable(false);
+		textField_Semestre.setEditable(false);
+		textField_Codigo.setEditable(false);
+		textField_Nome.setEditable(false);
+		textField_Abreviacao.setEditable(false);
+		textField_Ano.setEditable(false);
+		textField_Capacidade.setEditable(false);
+		btnNovo.setEnabled(true);
+		btnAlterar.setEnabled(false);
+		btnExcluir.setEnabled(false);
+		btnPesquisar.setEnabled(false);
+	}
 	
 	
-		
-		
+	public void ManipulaInterface(String modo) {
+		switch(modo) {
+		case "Navegar":
+			btnSalvar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+			textField_Curso.setEditable(false);
+			textField_Semestre.setEditable(false);
+			textField_Codigo.setEditable(false);
+			textField_Nome.setEditable(false);
+			textField_Abreviacao.setEditable(false);
+			textField_Ano.setEditable(false);
+			textField_Capacidade.setEditable(false);
+			btnNovo.setEnabled(true);
+			btnAlterar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnPesquisar.setEnabled(false);
+			break;
+			
+		case "Novo":
+			btnSalvar.setEnabled(true);
+			btnCancelar.setEnabled(true);
+			textField_Curso.setEditable(true);
+			textField_Semestre.setEditable(true);
+			textField_Codigo.setEditable(true);
+			textField_Nome.setEditable(true);
+			textField_Abreviacao.setEditable(true);
+			textField_Ano.setEditable(true);
+			textField_Capacidade.setEditable(true);
+			btnNovo.setEnabled(false);
+			btnAlterar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnPesquisar.setEnabled(false);
+			
+			break;
+			
+		case "Alterar":
+			btnSalvar.setEnabled(true);
+			btnCancelar.setEnabled(true);
+			textField_Curso.setEditable(true);
+			textField_Semestre.setEditable(true);
+			textField_Codigo.setEditable(true);
+			textField_Nome.setEditable(true);
+			textField_Abreviacao.setEditable(true);
+			textField_Ano.setEditable(true);
+			textField_Capacidade.setEditable(true);
+			btnNovo.setEnabled(false);
+			btnAlterar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnPesquisar.setEnabled(false);
+			
+			break;
+			
+		case "Pesquisar":
+			btnSalvar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+			textField_Curso.setEditable(false);
+			textField_Semestre.setEditable(false);
+			textField_Codigo.setEditable(false);
+			textField_Nome.setEditable(false);
+			textField_Abreviacao.setEditable(false);
+			textField_Ano.setEditable(false);
+			textField_Capacidade.setEditable(false);
+			btnNovo.setEnabled(true);
+			btnAlterar.setEnabled(true);
+			btnExcluir.setEnabled(true);
+			btnPesquisar.setEnabled(true);
+			
+			break;
+			
+		case "Excluir":
+			btnSalvar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+			textField_Curso.setEditable(false);
+			textField_Semestre.setEditable(false);
+			textField_Codigo.setEditable(false);
+			textField_Nome.setEditable(false);
+			textField_Abreviacao.setEditable(false);
+			textField_Ano.setEditable(false);
+			textField_Capacidade.setEditable(false);
+			btnNovo.setEnabled(true);
+			btnAlterar.setEnabled(false);
+			btnExcluir.setEnabled(false);
+			btnPesquisar.setEnabled(false);
+			
+			break;
+			
+		case "Selecao":
+			btnSalvar.setEnabled(false);
+			btnCancelar.setEnabled(false);
+			textField_Curso.setEditable(false);
+			textField_Semestre.setEditable(false);
+			textField_Codigo.setEditable(false);
+			textField_Nome.setEditable(false);
+			textField_Abreviacao.setEditable(false);
+			textField_Ano.setEditable(false);
+			textField_Capacidade.setEditable(false);
+			btnNovo.setEnabled(true);
+			btnAlterar.setEnabled(true);
+			btnExcluir.setEnabled(true);
+			btnPesquisar.setEnabled(true);
+			
+			break;
+			
+			
+		default: System.out.println("Modo inváldo");
+		}
 	}
 
 	/**
@@ -82,15 +211,30 @@ public class Teste {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.GRAY);
-		frame.setBounds(100, 100, 618, 487);
+		frame.setBounds(100, 100, 788, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 11, 582, 164);
+		scrollPane.setBounds(10, 11, 740, 164);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int index = table.getSelectedRow();
+				
+				if(index >= 0 && index < turmasCad.size()) //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
+					 //Turmas t = new turmasCad.get(index);
+				//Ta dando erro essa merda
+					
+					ManipulaInterface("Selecao");
+				
+					
+				
+			}
+		});
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -99,7 +243,7 @@ public class Teste {
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, Byte.class, Object.class, Object.class, Object.class, Object.class
+				Integer.class, String.class, Integer.class, Object.class, Object.class, Integer.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -110,7 +254,7 @@ public class Teste {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Dados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.RED));
-		panel.setBounds(22, 271, 557, 151);
+		panel.setBounds(22, 271, 728, 151);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -120,7 +264,7 @@ public class Teste {
 		panel.add(lblCurso);
 		
 		textField_Curso = new JTextField();
-		textField_Curso.setBounds(52, 25, 152, 20);
+		textField_Curso.setBounds(52, 25, 58, 20);
 		panel.add(textField_Curso);
 		textField_Curso.setColumns(10);
 		
@@ -140,16 +284,16 @@ public class Teste {
 		
 		JLabel lblAbreviao = new JLabel("Abrevia\u00E7\u00E3o:");
 		lblAbreviao.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblAbreviao.setBounds(10, 104, 73, 14);
+		lblAbreviao.setBounds(10, 108, 73, 14);
 		panel.add(lblAbreviao);
 		
 		textField_Nome = new JTextField();
-		textField_Nome.setBounds(52, 76, 152, 20);
+		textField_Nome.setBounds(51, 79, 264, 20);
 		panel.add(textField_Nome);
 		textField_Nome.setColumns(10);
 		
 		textField_Abreviacao = new JTextField();
-		textField_Abreviacao.setBounds(81, 102, 63, 20);
+		textField_Abreviacao.setBounds(80, 106, 63, 20);
 		panel.add(textField_Abreviacao);
 		textField_Abreviacao.setColumns(10);
 		
@@ -159,47 +303,72 @@ public class Teste {
 		panel.add(lblCapacidade);
 		
 		textField_Capacidade = new JTextField();
-		textField_Capacidade.setBounds(408, 26, 46, 20);
+		textField_Capacidade.setBounds(406, 26, 46, 20);
 		panel.add(textField_Capacidade);
 		textField_Capacidade.setColumns(10);
 		
 		JLabel lblAno = new JLabel("Ano:");
 		lblAno.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblAno.setBounds(338, 53, 46, 14);
+		lblAno.setBounds(376, 53, 46, 14);
 		panel.add(lblAno);
 		
 		textField_Ano = new JTextField();
-		textField_Ano.setBounds(368, 51, 43, 20);
+		textField_Ano.setBounds(406, 51, 43, 20);
 		panel.add(textField_Ano);
 		textField_Ano.setColumns(10);
 		
 		JLabel lblSemestre = new JLabel("Semestre:");
 		lblSemestre.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblSemestre.setBounds(338, 80, 58, 14);
+		lblSemestre.setBounds(349, 79, 58, 14);
 		panel.add(lblSemestre);
 		
 		textField_Semestre = new JTextField();
-		textField_Semestre.setBounds(398, 77, 51, 20);
+		textField_Semestre.setBounds(406, 77, 51, 20);
 		panel.add(textField_Semestre);
 		textField_Semestre.setColumns(10);
 		
 		
-		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Turmas turma = new Turmas()
+				Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText(), textField_Abreviacao.getText(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
+				turmasCad.add(turma);
 				LoadTable();
+				
+				ManipulaInterface("Navegar");
+				textField_Curso.setText("");
+				textField_Semestre.setText("");
+				textField_Ano.setText("");
+				textField_Capacidade.setText("");
+				textField_Nome.setText("");
+				textField_Abreviacao.setText("");
+				textField_Codigo.setText("");
 				
 			}
 		});
-		btnSalvar.setBounds(322, 117, 89, 23);
+		btnSalvar.setBounds(582, 50, 89, 23);
 		panel.add(btnSalvar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(421, 117, 89, 23);
+		
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField_Curso.setText("");
+				textField_Semestre.setText("");
+				textField_Ano.setText("");
+				textField_Capacidade.setText("");
+				textField_Nome.setText("");
+				textField_Abreviacao.setText("");
+				textField_Codigo.setText("");
+				
+				ManipulaInterface("Navegar");
+			}
+		});
+		btnCancelar.setBounds(582, 99, 89, 23);
 		panel.add(btnCancelar);
 		
-		JButton btnNovo = new JButton("Novo");
+		
+		btnNovo = new JButton("Novo");
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField_Curso.setText("");
@@ -210,25 +379,33 @@ public class Teste {
 				textField_Abreviacao.setText("");
 				textField_Codigo.setText("");
 				
-				btnSalvar.setEnabled(true);
-				btnCancelar.setEnabled(true);
-				
+//				btnSalvar.setEnabled(true);
+//				btnCancelar.setEnabled(true);
+//				textField_Curso.setEditable(true);
+//				textField_Semestre.setEditable(true);
+//				textField_Codigo.setEditable(true);
+//				textField_Nome.setEditable(true);
+//				textField_Abreviacao.setEditable(true);
+//				textField_Ano.setEditable(true);
+//				textField_Capacidade.setEditable(true);
+				ManipulaInterface("Novo");
 				
 			}
 		});
-		btnNovo.setBounds(33, 208, 89, 23);
+		btnNovo.setBounds(67, 208, 89, 23);
 		frame.getContentPane().add(btnNovo);
 		
-		JButton btnAlterar = new JButton("Alterar");
-		btnAlterar.setBounds(169, 208, 89, 23);
+		btnAlterar = new JButton("Alterar");
+		btnAlterar.setBounds(252, 208, 89, 23);
 		frame.getContentPane().add(btnAlterar);
 		
-		JButton btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(304, 208, 89, 23);
+		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setBounds(422, 208, 89, 23);
 		frame.getContentPane().add(btnPesquisar);
 		
-		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(435, 208, 89, 23);
+		btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(606, 208, 89, 23);
 		frame.getContentPane().add(btnExcluir);
 	}
+	
 }

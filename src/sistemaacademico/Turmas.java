@@ -18,17 +18,22 @@ public class Turmas extends Coisa {
     int                             semestre;
     int                             curso;
     private ArrayList <Turmas>  turmasCad;
-//    int codigo, String nomeAbreviado, String nomeCompleto, int capacidade, int ano, int semestre, int curso
+
+	
     public Turmas(ArrayList<Turmas> turmasCad) {
-//    	this.codigo = codigo;
-//    	this.nomeAbreviado = nomeAbreviado;
-//    	this.nomeCompleto = nomeCompleto;
-//    	this.capacidade = capacidade;
-//    	this.ano = ano;
-//    	this.semestre = semestre;
-//    	this.curso = curso;
+
     	this.turmasCad = turmasCad;
     }
+    public Turmas (int curso, int semestre, int codigo, String nomeCompleto, String nomeAbreviado, int ano, int capacidade) {
+    	this.codigo = codigo;
+    	this.nomeAbreviado = nomeAbreviado;
+    	this.nomeCompleto = nomeCompleto;
+    	this.capacidade = capacidade;
+    	this.ano = ano;
+    	this.semestre = semestre;
+    	this.curso = curso;
+    }
+    
 
     public int getCapacidade() {
 		return capacidade;
@@ -62,6 +67,13 @@ public class Turmas extends Coisa {
 		this.curso = curso;
 	}
 
+	public ArrayList<Turmas> getTurmasCad() {
+		return turmasCad;
+	}
+	
+	public void setTurmasCad(ArrayList<Turmas> turmasCad) {
+		this.turmasCad = turmasCad;
+	}
 	@Override
     public void cadastrar() {
 		turmasCad.add(this);
