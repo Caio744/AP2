@@ -377,7 +377,6 @@ public class Teste {
 				textField_Nome.setText("");
 				textField_Abreviacao.setText("");
 				textField_Codigo.setText("");
-				
 			}
 		});
 		btnSalvar.setBounds(530, 117, 89, 23);
