@@ -7,6 +7,7 @@ import java.awt.Component;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JPanel;
@@ -22,18 +23,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException; //Importe para a mascara
+import javax.swing.JFormattedTextField;
+
 
 public class Teste {
 
 	private JFrame frame;
 	private JTable table;
-	private JTextField textField_Curso;
-	private JTextField textField_Codigo;
+	private JFormattedTextField textField_Curso;
+	private JFormattedTextField textField_Codigo;
 	private JTextField textField_Nome;
 	private JTextField textField_Abreviacao;
-	private JTextField textField_Capacidade;
-	private JTextField textField_Ano;
-	private JTextField textField_Semestre;
+	private JFormattedTextField textField_Capacidade;
+	private JFormattedTextField textField_Ano;
+	private JFormattedTextField textField_Semestre;
 	private JButton btnNovo;
 	private JButton btnSalvar;
 	private JButton btnCancelar;
@@ -206,7 +210,7 @@ public class Teste {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Inicializa os frames.
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -214,6 +218,30 @@ public class Teste {
 		frame.setBounds(100, 100, 788, 487);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		/**
+		 * Inicializa as máscaras que irão ser utilizadas nos textfield's.
+		 */
+		MaskFormatter maskCurso = null;
+		MaskFormatter maskAno = null;
+		MaskFormatter maskSemestre = null;
+		MaskFormatter maskCodigo = null;
+		MaskFormatter maskCapacidade = null;
+		
+		try {
+			maskCurso = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
+			maskAno = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
+			maskSemestre = new MaskFormatter("##"); //2 digitos numéricos são obrigatórios
+			maskCodigo = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
+			maskCapacidade = new MaskFormatter("###"); //3 digitos numéricos são obrigatórios
+			
+		} catch (ParseException e) {
+			System.err.println("Erro na formatação: " + e.getMessage());
+			System.exit(-1);
+			
+		}
+		
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 11, 740, 164);
@@ -254,7 +282,7 @@ public class Teste {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Dados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.RED));
-		panel.setBounds(22, 271, 728, 151);
+		panel.setBounds(10, 271, 740, 151);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -263,17 +291,18 @@ public class Teste {
 		lblCurso.setBounds(10, 28, 46, 14);
 		panel.add(lblCurso);
 		
-		textField_Curso = new JTextField();
-		textField_Curso.setBounds(52, 25, 58, 20);
+		textField_Curso = new JFormattedTextField(maskCurso);
+		textField_Curso.setBounds(52, 25, 46, 20);
 		panel.add(textField_Curso);
 		textField_Curso.setColumns(10);
 		
 		JLabel lblCdigo = new JLabel("C\u00F3digo:");
+		lblCdigo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblCdigo.setBounds(10, 54, 46, 14);
 		panel.add(lblCdigo);
 		
-		textField_Codigo = new JTextField();
-		textField_Codigo.setBounds(52, 51, 58, 20);
+		textField_Codigo = new JFormattedTextField(maskCodigo);
+		textField_Codigo.setBounds(52, 51, 46, 20);
 		panel.add(textField_Codigo);
 		textField_Codigo.setColumns(10);
 		
@@ -302,8 +331,8 @@ public class Teste {
 		lblCapacidade.setBounds(338, 29, 73, 14);
 		panel.add(lblCapacidade);
 		
-		textField_Capacidade = new JTextField();
-		textField_Capacidade.setBounds(406, 26, 46, 20);
+		textField_Capacidade = new JFormattedTextField(maskCapacidade);
+		textField_Capacidade.setBounds(406, 26, 43, 20);
 		panel.add(textField_Capacidade);
 		textField_Capacidade.setColumns(10);
 		
@@ -312,7 +341,7 @@ public class Teste {
 		lblAno.setBounds(376, 53, 46, 14);
 		panel.add(lblAno);
 		
-		textField_Ano = new JTextField();
+		textField_Ano = new JFormattedTextField(maskAno);
 		textField_Ano.setBounds(406, 51, 43, 20);
 		panel.add(textField_Ano);
 		textField_Ano.setColumns(10);
@@ -322,8 +351,8 @@ public class Teste {
 		lblSemestre.setBounds(349, 79, 58, 14);
 		panel.add(lblSemestre);
 		
-		textField_Semestre = new JTextField();
-		textField_Semestre.setBounds(406, 77, 51, 20);
+		textField_Semestre = new JFormattedTextField(maskSemestre);
+		textField_Semestre.setBounds(406, 77, 43, 20);
 		panel.add(textField_Semestre);
 		textField_Semestre.setColumns(10);
 		
@@ -346,7 +375,7 @@ public class Teste {
 				
 			}
 		});
-		btnSalvar.setBounds(582, 50, 89, 23);
+		btnSalvar.setBounds(530, 117, 89, 23);
 		panel.add(btnSalvar);
 		
 		
@@ -364,8 +393,24 @@ public class Teste {
 				ManipulaInterface("Navegar");
 			}
 		});
-		btnCancelar.setBounds(582, 99, 89, 23);
+		btnCancelar.setBounds(629, 117, 89, 23);
 		panel.add(btnCancelar);
+		
+		JLabel lblEx = new JLabel("Ex.: 0035");
+		lblEx.setBounds(108, 29, 63, 14);
+		panel.add(lblEx);
+		
+		JLabel lblEx_1 = new JLabel("Ex.: 0115");
+		lblEx_1.setBounds(108, 54, 63, 14);
+		panel.add(lblEx_1);
+		
+		JLabel lblEx_2 = new JLabel("Ex.: 060");
+		lblEx_2.setBounds(459, 29, 63, 14);
+		panel.add(lblEx_2);
+		
+		JLabel lblEx_3 = new JLabel("Ex.: 05");
+		lblEx_3.setBounds(459, 80, 63, 14);
+		panel.add(lblEx_3);
 		
 		
 		btnNovo = new JButton("Novo");
@@ -407,5 +452,4 @@ public class Teste {
 		btnExcluir.setBounds(606, 208, 89, 23);
 		frame.getContentPane().add(btnExcluir);
 	}
-	
 }
