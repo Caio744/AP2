@@ -262,8 +262,6 @@ public class Teste {
 					
 					ManipulaInterface("Selecao");
 				
-					
-				
 			}
 		});
 		table.setModel(new DefaultTableModel(
