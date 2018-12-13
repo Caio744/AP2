@@ -48,13 +48,13 @@ public class Teste {
 
 	private static  ArrayList<Turmas>  turmasCad;
 	
-	private Turmas t;
+	
 
 	
 	
 	public void LoadTable() {
 		Object colunas[] = {"Curso","Código","Nome","Abreviação","Capacidade","Ano","Semestre"};
-		DefaultTableModel modelo = new DefaultTableModel(colunas,0);
+		DefaultTableModel modelo = new DefaultTableModel(colunas,0); //DefaultTableModel é uma classe utilizada para alimentar a lista
 		
 		for(int i=0; i<turmasCad.size();i++) {
 			modelo.addRow(new Object[] {turmasCad.get(i).getCurso(),turmasCad.get(i).getCodigo(),turmasCad.get(i).getNomeCompleto(),turmasCad.get(i).getNomeAbreviado(),turmasCad.get(i).getCapacidade(),turmasCad.get(i).getAno(),turmasCad.get(i).getSemestre()});
@@ -102,6 +102,11 @@ public class Teste {
 		btnAlterar.setEnabled(false);
 		btnExcluir.setEnabled(false);
 		btnPesquisar.setEnabled(false);
+		
+		JFormattedTextField textField_Pesquisar = new JFormattedTextField();
+		textField_Pesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textField_Pesquisar.setBounds(605, 208, 60, 22);
+		frame.getContentPane().add(textField_Pesquisar);
 	}
 	
 	
@@ -120,7 +125,7 @@ public class Teste {
 			btnNovo.setEnabled(true);
 			btnAlterar.setEnabled(false);
 			btnExcluir.setEnabled(false);
-			btnPesquisar.setEnabled(false);
+			btnPesquisar.setEnabled(true);
 			break;
 			
 		case "Novo":
@@ -231,6 +236,7 @@ public class Teste {
 		MaskFormatter maskSemestre = null;
 		MaskFormatter maskCodigo = null;
 		MaskFormatter maskCapacidade = null;
+		MaskFormatter maskPesquisa = null;
 		
 		try {
 			maskCurso = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
@@ -238,6 +244,7 @@ public class Teste {
 			maskSemestre = new MaskFormatter("##"); //2 digitos numéricos são obrigatórios
 			maskCodigo = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
 			maskCapacidade = new MaskFormatter("###"); //3 digitos numéricos são obrigatórios
+			maskPesquisa = new MaskFormatter("####");
 			
 		} catch (ParseException e) {
 			System.err.println("Erro na formatação: " + e.getMessage());
@@ -298,7 +305,7 @@ public class Teste {
 		textField_Curso.setColumns(10);
 		
 		JLabel lblCdigo = new JLabel("C\u00F3digo:");
-		lblCdigo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCdigo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCdigo.setBounds(10, 54, 46, 14);
 		panel.add(lblCdigo);
 		
@@ -362,12 +369,13 @@ public class Teste {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText(), textField_Abreviacao.getText(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
+					Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
 					turmasCad.add(turma);
 				} catch(NumberFormatException e) {//Como os textfield's são inicializados com "", ao tentar converter um campo que tem "" para inteiro, dá uma exceção do tipo NumberFormatException
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
 				}
 				LoadTable();
+				JOptionPane.showMessageDialog(null, "Cadastro feito com sucesso!");
 				
 				ManipulaInterface("Navegar");
 				textField_Curso.setText("");    //Preenche de volta os textfields's com "null"
@@ -418,6 +426,7 @@ public class Teste {
 		
 		
 		btnNovo = new JButton("Novo");
+		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField_Curso.setText("");
@@ -441,19 +450,22 @@ public class Teste {
 				
 			}
 		});
-		btnNovo.setBounds(67, 208, 89, 23);
+		btnNovo.setBounds(24, 208, 89, 23);
 		frame.getContentPane().add(btnNovo);
 		
 		btnAlterar = new JButton("Alterar");
-		btnAlterar.setBounds(252, 208, 89, 23);
+		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAlterar.setBounds(137, 208, 89, 23);
 		frame.getContentPane().add(btnAlterar);
 		
 		btnPesquisar = new JButton("Pesquisar");
-		btnPesquisar.setBounds(422, 208, 89, 23);
+		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnPesquisar.setBounds(506, 208, 89, 23);
 		frame.getContentPane().add(btnPesquisar);
 		
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(606, 208, 89, 23);
+		btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnExcluir.setBounds(247, 208, 89, 23);
 		frame.getContentPane().add(btnExcluir);
 	}
 }
