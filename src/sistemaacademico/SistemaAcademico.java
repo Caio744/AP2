@@ -33,9 +33,7 @@ public class SistemaAcademico {
      */
     public static void main(String[] args) {  
         
-        turmasCad = new ArrayList<Turmas>();
-        Turmas t1 = new Turmas(turmasCad);
-        t1.cadastrar();
+     
        
   
     }

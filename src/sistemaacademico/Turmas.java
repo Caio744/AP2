@@ -17,13 +17,10 @@ public class Turmas extends Coisa {
     int                             ano;
     int                             semestre;
     int                             curso;
-    private ArrayList <Turmas>  turmasCad;
+    static ArrayList <Turmas>  turmasCad = new ArrayList<>();
 
 	
-    public Turmas(ArrayList<Turmas> turmasCad) {
-
-    	this.turmasCad = turmasCad;
-    }
+  
     public Turmas (int curso, int semestre, int codigo, String nomeCompleto, String nomeAbreviado, int ano, int capacidade) {
     	this.codigo = codigo;
     	this.nomeAbreviado = nomeAbreviado;
@@ -67,6 +64,7 @@ public class Turmas extends Coisa {
 		this.curso = curso;
 	}
 
+
 	public ArrayList<Turmas> getTurmasCad() {
 		return turmasCad;
 	}
@@ -74,6 +72,17 @@ public class Turmas extends Coisa {
 	public void setTurmasCad(ArrayList<Turmas> turmasCad) {
 		this.turmasCad = turmasCad;
 	}
+	
+    public void addTurmas (Turmas T){
+        turmasCad.add(T);
+    }
+	
+	
+	
+	
+	
+	
+	
 	@Override
     public void cadastrar() {
 		turmasCad.add(this);

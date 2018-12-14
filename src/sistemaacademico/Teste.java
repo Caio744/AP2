@@ -26,11 +26,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException; //Importe para a mascara
 import javax.swing.JFormattedTextField;
+import java.awt.SystemColor;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 
 
 public class Teste {
 
-	private JFrame frame;
+	private JFrame frmTurmas;
 	private JTable table;
 	private JFormattedTextField textField_Curso;
 	private JFormattedTextField textField_Codigo;
@@ -45,8 +48,9 @@ public class Teste {
 	private JButton btnExcluir;
 	private JButton btnAlterar;
 	private JButton btnPesquisar;
+	String modo;
 
-	private static  ArrayList<Turmas>  turmasCad;
+	
 	
 	
 
@@ -56,8 +60,8 @@ public class Teste {
 		Object colunas[] = {"Curso","Código","Nome","Abreviação","Capacidade","Ano","Semestre"};
 		DefaultTableModel modelo = new DefaultTableModel(colunas,0); //DefaultTableModel é uma classe utilizada para alimentar a lista
 		
-		for(int i=0; i<turmasCad.size();i++) {
-			modelo.addRow(new Object[] {turmasCad.get(i).getCurso(),turmasCad.get(i).getCodigo(),turmasCad.get(i).getNomeCompleto(),turmasCad.get(i).getNomeAbreviado(),turmasCad.get(i).getCapacidade(),turmasCad.get(i).getAno(),turmasCad.get(i).getSemestre()});
+		for(int i=0; i<Turmas.turmasCad.size();i++) {
+			modelo.addRow(new Object[] {Turmas.turmasCad.get(i).getCurso(),Turmas.turmasCad.get(i).getCodigo(),Turmas.turmasCad.get(i).getNomeCompleto(),Turmas.turmasCad.get(i).getNomeAbreviado(),Turmas.turmasCad.get(i).getCapacidade(),Turmas.turmasCad.get(i).getAno(),Turmas.turmasCad.get(i).getSemestre()});
 		}
 		table.setModel(modelo);
 	}
@@ -65,18 +69,33 @@ public class Teste {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Teste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Teste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Teste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Teste.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Teste window = new Teste();
-					window.frame.setVisible(true);
+					window.frmTurmas.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		turmasCad = new ArrayList<Turmas>();
-        //Turmas t = new Turmas(turmasCad);
+	
 
 	}
 
@@ -87,7 +106,6 @@ public class Teste {
 		
 	public Teste() {
 		initialize();
-		turmasCad = new ArrayList();
 		
 		btnSalvar.setEnabled(false);
 		btnCancelar.setEnabled(false);
@@ -103,14 +121,16 @@ public class Teste {
 		btnExcluir.setEnabled(false);
 		btnPesquisar.setEnabled(false);
 		
+		modo = "Navegar";
+		
 		JFormattedTextField textField_Pesquisar = new JFormattedTextField();
 		textField_Pesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		textField_Pesquisar.setBounds(605, 208, 60, 22);
-		frame.getContentPane().add(textField_Pesquisar);
+		textField_Pesquisar.setBounds(690, 236, 60, 22);
+		frmTurmas.getContentPane().add(textField_Pesquisar);
 	}
 	
 	
-	public void ManipulaInterface(String modo) {
+	public void ManipulaInterface() {
 		switch(modo) {
 		case "Navegar":
 			btnSalvar.setEnabled(false);
@@ -222,11 +242,15 @@ public class Teste {
 	 * Inicializa os frames.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.GRAY);
-		frame.setBounds(100, 100, 788, 487);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmTurmas = new JFrame();
+		frmTurmas.getContentPane().setForeground(Color.RED);
+		frmTurmas.setForeground(Color.GREEN);
+		frmTurmas.setTitle("TURMAS");
+		frmTurmas.setBackground(Color.RED);
+		frmTurmas.getContentPane().setBackground(new Color(102, 153, 204));
+		frmTurmas.setBounds(100, 100, 788, 487);
+		frmTurmas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTurmas.getContentPane().setLayout(null);
 		
 		/**
 		 * Inicializa as máscaras que irão ser utilizadas nos textfield's.
@@ -255,27 +279,42 @@ public class Teste {
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(null);
 		scrollPane.setBounds(10, 11, 740, 164);
-		frame.getContentPane().add(scrollPane);
+		frmTurmas.getContentPane().add(scrollPane);
 	
 		table = new JTable();
+		table.setToolTipText("GF");
+		table.setShowHorizontalLines(false);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				int index = table.getSelectedRow();
-				if(index >= 0 && index < turmasCad.size()) //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
-					//Em 10:10 do video 2 tem a criação de um objeto de turma instaciado no arraylist, mas da erro. Precisa ver isso ae
-				//Ta dando erro essa merda
+				if(index >= 0 && index < Turmas.turmasCad.size()) {
+					Turmas t = Turmas.turmasCad.get(index); //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
+					textField_Nome.setText(t.getNomeCompleto());
+					textField_Abreviacao.setText(t.getNomeAbreviado());
+					textField_Capacidade.setText(String.valueOf(t.getCapacidade()));
+					textField_Codigo.setText(String.valueOf(t.getCodigo()));
+					textField_Ano.setText(String.valueOf(t.getAno()));
+					textField_Semestre.setText(String.valueOf(t.getSemestre()));
+					textField_Curso.setText(String.valueOf(t.getCurso())); 
+					//String.valueOf pega o inteiro e retorna uma string para o setText
+					modo = "Selecao";
+					ManipulaInterface();
 					
-					ManipulaInterface("Selecao");
+					
 				
+				}
+			
 			}
 		});
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Curso", "Semestre", "C\u00F3digo", "Nome", "Abrevia\u00E7\u00E3o", "Ano", "Capacidade"
+				"Curso", "Semestre", "Codigo", "Nome", "Abreviacao", "Ano", "Capacidade"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -291,7 +330,7 @@ public class Teste {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Dados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.RED));
 		panel.setBounds(10, 271, 740, 151);
-		frame.getContentPane().add(panel);
+		frmTurmas.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblCurso = new JLabel("Curso:");
@@ -304,7 +343,7 @@ public class Teste {
 		panel.add(textField_Curso);
 		textField_Curso.setColumns(10);
 		
-		JLabel lblCdigo = new JLabel("C\u00F3digo:");
+		JLabel lblCdigo = new JLabel("Código:");
 		lblCdigo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCdigo.setBounds(10, 54, 46, 14);
 		panel.add(lblCdigo);
@@ -319,7 +358,7 @@ public class Teste {
 		lblNome.setBounds(10, 79, 46, 14);
 		panel.add(lblNome);
 		
-		JLabel lblAbreviao = new JLabel("Abrevia\u00E7\u00E3o:");
+		JLabel lblAbreviao = new JLabel("Abreviação:");
 		lblAbreviao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAbreviao.setBounds(10, 108, 73, 14);
 		panel.add(lblAbreviao);
@@ -368,16 +407,32 @@ public class Teste {
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
-					turmasCad.add(turma);
-				} catch(NumberFormatException e) {//Como os textfield's são inicializados com "", ao tentar converter um campo que tem "" para inteiro, dá uma exceção do tipo NumberFormatException
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
+				if(modo.equals("Novo")) {
+					try {
+						Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
+						turma.cadastrar();
+					} catch(NumberFormatException e) {//Como os textfield's são inicializados com "", ao tentar converter um campo que tem "" para inteiro, dá uma exceção do tipo NumberFormatException
+						JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
+					}
+					LoadTable();
+					JOptionPane.showMessageDialog(null, "Cadastro feita com sucesso!");
+				} else if (modo.equals("Alterar")) {
+					if((JOptionPane.showConfirmDialog(null, "Deseja alterar a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
+						int index = table.getSelectedRow();
+						Turmas.turmasCad.get(index).setCodigo(Integer.parseInt(textField_Codigo.getText()));
+						Turmas.turmasCad.get(index).setAno(Integer.parseInt(textField_Ano.getText()));
+						Turmas.turmasCad.get(index).setCapacidade(Integer.parseInt(textField_Capacidade.getText()));
+						Turmas.turmasCad.get(index).setSemestre(Integer.parseInt(textField_Semestre.getText()));
+						Turmas.turmasCad.get(index).setCurso(Integer.parseInt(textField_Curso.getText()));
+						Turmas.turmasCad.get(index).setNomeCompleto(textField_Nome.getText());
+						Turmas.turmasCad.get(index).setNomeAbreviado(textField_Codigo.getText());
+						JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
+						LoadTable();
+					}
+					
 				}
-				LoadTable();
-				JOptionPane.showMessageDialog(null, "Cadastro feito com sucesso!");
-				
-				ManipulaInterface("Navegar");
+				modo = "Navegar";
+				ManipulaInterface();
 				textField_Curso.setText("");    //Preenche de volta os textfields's com "null"
 				textField_Semestre.setText("");
 				textField_Ano.setText("");
@@ -402,7 +457,8 @@ public class Teste {
 				textField_Abreviacao.setText("");
 				textField_Codigo.setText("");
 				
-				ManipulaInterface("Navegar");
+				modo = "Navegar";
+				ManipulaInterface();
 			}
 		});
 		btnCancelar.setBounds(629, 117, 89, 23);
@@ -426,7 +482,7 @@ public class Teste {
 		
 		
 		btnNovo = new JButton("Novo");
-		btnNovo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnNovo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField_Curso.setText("");
@@ -437,35 +493,52 @@ public class Teste {
 				textField_Abreviacao.setText("");
 				textField_Codigo.setText("");
 				
-//				btnSalvar.setEnabled(true);
-//				btnCancelar.setEnabled(true);
-//				textField_Curso.setEditable(true);
-//				textField_Semestre.setEditable(true);
-//				textField_Codigo.setEditable(true);
-//				textField_Nome.setEditable(true);
-//				textField_Abreviacao.setEditable(true);
-//				textField_Ano.setEditable(true);
-//				textField_Capacidade.setEditable(true);
-				ManipulaInterface("Novo");
+				modo = "Novo";
+				ManipulaInterface();
 				
 			}
 		});
-		btnNovo.setBounds(24, 208, 89, 23);
-		frame.getContentPane().add(btnNovo);
+		btnNovo.setBounds(44, 221, 114, 38);
+		frmTurmas.getContentPane().add(btnNovo);
 		
 		btnAlterar = new JButton("Alterar");
-		btnAlterar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnAlterar.setBounds(137, 208, 89, 23);
-		frame.getContentPane().add(btnAlterar);
+		btnAlterar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				modo = "Alterar";
+				ManipulaInterface();
+			}
+		});
+		btnAlterar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAlterar.setBounds(170, 221, 98, 38);
+		frmTurmas.getContentPane().add(btnAlterar);
 		
 		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnPesquisar.setBounds(506, 208, 89, 23);
-		frame.getContentPane().add(btnPesquisar);
+		btnPesquisar.setBounds(603, 236, 89, 23);
+		frmTurmas.getContentPane().add(btnPesquisar);
 		
 		btnExcluir = new JButton("Excluir");
-		btnExcluir.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnExcluir.setBounds(247, 208, 89, 23);
-		frame.getContentPane().add(btnExcluir);
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if((JOptionPane.showConfirmDialog(null, "Deseja excluir a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
+					int index = table.getSelectedRow();
+					if(index >= 0 && index < Turmas.turmasCad.size()) {
+						Turmas.turmasCad.remove(index);
+					}
+					LoadTable();
+					modo = "Navegar";
+					ManipulaInterface();
+					JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
+				}
+			}
+				
+		});
+		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnExcluir.setBounds(280, 221, 98, 38);
+		frmTurmas.getContentPane().add(btnExcluir);
 	}
 }
