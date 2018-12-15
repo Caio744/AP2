@@ -55,6 +55,14 @@ public class Teste {
 	private JButton btnPesquisar;
 	private JButton btnAtualizar;
 	String modo;
+	private int indiceAuxiliar;
+	private boolean aux = false;
+	
+	
+	private void setIndex(int indiceAuxiliar) {
+		aux = true; // serve para controlar quais dados aparecerao para editar quando pesquisar.
+		this.indiceAuxiliar = indiceAuxiliar;
+	}
 
 	
 	
@@ -150,7 +158,7 @@ public class Teste {
 //	/**
 //	 * ManipulaInterface
 //	 * 
-//	 * -MÃ©todo responsÃ¡vel por habilitar e desabilitar os botÃµes nos modos de interaÃ§Ã£o com a interface. 
+//	 * -Método responsÃ¡vel por habilitar e desabilitar os botÃµes nos modos de interaÃ§Ã£o com a interface. 
 //	 * -Realiza tambÃ©m a troca de cores dos campos de texto para deixar claro que a textField nÃ£o estÃ¡ disponÃ­vel para interaÃ§Ã£o
 //	 */
 	public void ManipulaInterface() {
@@ -241,7 +249,7 @@ public class Teste {
 			textField_Abreviacao.setEditable(false);
 			textField_Ano.setEditable(false);
 			textField_Capacidade.setEditable(false);
-			btnNovo.setEnabled(true);
+			btnNovo.setEnabled(false);
 			btnAlterar.setEnabled(true);
 			btnExcluir.setEnabled(true);
 			btnPesquisar.setEnabled(true);
@@ -350,22 +358,36 @@ public class Teste {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int index = table.getSelectedRow();
-				if(index >= 0 && index < Turmas.turmasCad.size()) {
-					Turmas t = Turmas.turmasCad.get(index); //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
-					textField_Nome.setText(t.getNomeCompleto());
-					textField_Abreviacao.setText(t.getNomeAbreviado());
-					textField_Capacidade.setText(String.valueOf(t.getCapacidade()));
-					textField_Codigo.setText(String.valueOf(t.getCodigo()));
-					textField_Ano.setText(String.valueOf(t.getAno()));
-					textField_Semestre.setText(String.valueOf(t.getSemestre()));
-					textField_Curso.setText(String.valueOf(t.getCurso())); 
-					//String.valueOf pega o inteiro e retorna uma string para o setText
-					modo = "Selecao";
-					ManipulaInterface();
-					
-					
+				if(aux == false) {
+					int index = table.getSelectedRow();
+					if(index >= 0 && index < Turmas.turmasCad.size()) {
+						Turmas t = Turmas.turmasCad.get(index); //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
+						textField_Nome.setText(t.getNomeCompleto());
+						textField_Abreviacao.setText(t.getNomeAbreviado());
+						textField_Capacidade.setText(String.valueOf(t.getCapacidade()));
+						textField_Codigo.setText(String.valueOf(t.getCodigo()));
+						textField_Ano.setText(String.valueOf(t.getAno()));
+						textField_Semestre.setText(String.valueOf(t.getSemestre()));
+						textField_Curso.setText(String.valueOf(t.getCurso())); 
+						//String.valueOf pega o inteiro e retorna uma string para o setText
+						modo = "Selecao";
+						ManipulaInterface();
+					}
 				
+				//mudanças
+				}else if(aux == true) {
+					if(indiceAuxiliar >= 0 && indiceAuxiliar<Turmas.turmasCad.size()) {
+						Turmas t = Turmas.turmasCad.get(indiceAuxiliar); //Isso tudo serve para quando clicar em alguma linha da tabela, ela ativa a funcao manipula. Sem isso, pode ser que o valor do index se torna -1
+						textField_Nome.setText(t.getNomeCompleto());
+						textField_Abreviacao.setText(t.getNomeAbreviado());
+						textField_Capacidade.setText(String.valueOf(t.getCapacidade()));
+						textField_Codigo.setText(String.valueOf(t.getCodigo()));
+						textField_Ano.setText(String.valueOf(t.getAno()));
+						textField_Semestre.setText(String.valueOf(t.getSemestre()));
+						textField_Curso.setText(String.valueOf(t.getCurso())); 
+						modo = "Selecao";
+						ManipulaInterface();
+					}
 				}
 			
 			}
@@ -551,20 +573,38 @@ public class Teste {
 	            LoadTable();
 	            JOptionPane.showMessageDialog(null, "Cadastro feita com sucesso!");
 	          }
-	          
+	          aux = false;
+	          //mudanças
 				} else if (modo.equals("Alterar")) {
-					if((JOptionPane.showConfirmDialog(null, "Deseja alterar a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
-						int index = table.getSelectedRow();
-						Turmas.turmasCad.get(index).setCodigo(Integer.parseInt(textField_Codigo.getText()));
-						Turmas.turmasCad.get(index).setAno(Integer.parseInt(textField_Ano.getText()));
-						Turmas.turmasCad.get(index).setCapacidade(Integer.parseInt(textField_Capacidade.getText()));
-						Turmas.turmasCad.get(index).setSemestre(Integer.parseInt(textField_Semestre.getText()));
-						Turmas.turmasCad.get(index).setCurso(Integer.parseInt(textField_Curso.getText()));
-						Turmas.turmasCad.get(index).setNomeCompleto(textField_Nome.getText());
-						Turmas.turmasCad.get(index).setNomeAbreviado(textField_Abreviacao.getText());
-						JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
-						LoadTable();
-					}
+						if((JOptionPane.showConfirmDialog(null, "Deseja alterar a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
+							if(aux == false) {
+								int index = table.getSelectedRow();
+								Turmas.turmasCad.get(index).setCodigo(Integer.parseInt(textField_Codigo.getText()));
+								Turmas.turmasCad.get(index).setAno(Integer.parseInt(textField_Ano.getText()));
+								Turmas.turmasCad.get(index).setCapacidade(Integer.parseInt(textField_Capacidade.getText()));
+								Turmas.turmasCad.get(index).setSemestre(Integer.parseInt(textField_Semestre.getText()));
+								Turmas.turmasCad.get(index).setCurso(Integer.parseInt(textField_Curso.getText()));
+								Turmas.turmasCad.get(index).setNomeCompleto(textField_Nome.getText());
+								Turmas.turmasCad.get(index).setNomeAbreviado(textField_Abreviacao.getText());
+								JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
+								LoadTable();
+							}else {
+								
+								Turmas.turmasCad.get(indiceAuxiliar).setCodigo(Integer.parseInt(textField_Codigo.getText()));
+								Turmas.turmasCad.get(indiceAuxiliar).setAno(Integer.parseInt(textField_Ano.getText()));
+								Turmas.turmasCad.get(indiceAuxiliar).setCapacidade(Integer.parseInt(textField_Capacidade.getText()));
+								Turmas.turmasCad.get(indiceAuxiliar).setSemestre(Integer.parseInt(textField_Semestre.getText()));
+								Turmas.turmasCad.get(indiceAuxiliar).setCurso(Integer.parseInt(textField_Curso.getText()));
+								Turmas.turmasCad.get(indiceAuxiliar).setNomeCompleto(textField_Nome.getText());
+								Turmas.turmasCad.get(indiceAuxiliar).setNomeAbreviado(textField_Abreviacao.getText());
+								JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
+								LoadTable();
+								aux = false;
+							}
+							
+						}
+					
+					
 					
 				}
 				modo = "Navegar";
@@ -636,28 +676,28 @@ public class Teste {
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int codigo = 0;
+				int codigo = 0, j=0;
 				try{
 					codigo = Integer.parseInt(textField_Pesquisar.getText());
 					
 				}catch(NumberFormatException x) {
+					j=1;
 					JOptionPane.showMessageDialog(null, "Por favor, informe um código.");
 				}
 				boolean x = false;
 				for(int i=0; i<Turmas.turmasCad.size(); i++) {
 					if(codigo == Turmas.turmasCad.get(i).getCodigo()) {
-						ArrayList <Turmas>  cad = new ArrayList<>();
-						cad.add(Turmas.turmasCad.get(i));
 						x = true;
 						Object colunas[] = {"Código","Curso","Nome","Abreviação","Capacidade","Semestre","Ano"};
 						DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
 						modelo.addRow(new Object[] {Turmas.turmasCad.get(i).getCodigo(),Turmas.turmasCad.get(i).getCurso(),Turmas.turmasCad.get(i).getNomeCompleto(),Turmas.turmasCad.get(i).getNomeAbreviado(),Turmas.turmasCad.get(i).getCapacidade(),Turmas.turmasCad.get(i).getSemestre(),Turmas.turmasCad.get(i).getAno()});
 						table.setModel(modelo);
+						setIndex(i);
 					}
 					modo = "Pesquisar";
 					ManipulaInterface();
 				}
-				if(x == false){
+				if(x == false && j != 1){ // O j serve para não mostrar a mensagem caso ocorra uma exceção
 					JOptionPane.showMessageDialog(null, "Turma não encontrada!");
 				}
 				textField_Pesquisar.setText("");
@@ -671,14 +711,25 @@ public class Teste {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if((JOptionPane.showConfirmDialog(null, "Deseja excluir a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
-					int index = table.getSelectedRow();
-					if(index >= 0 && index < Turmas.turmasCad.size()) {
-						Turmas.turmasCad.remove(index);
+					if(aux == false) {
+						int index = table.getSelectedRow();
+						if(index >= 0 && index < Turmas.turmasCad.size()) {
+							Turmas.turmasCad.remove(index);
+						}
+						LoadTable();
+						modo = "Navegar";
+						ManipulaInterface();
+						JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
 					}
-					LoadTable();
-					modo = "Navegar";
-					ManipulaInterface();
-					JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
+					else {
+						Turmas.turmasCad.remove(indiceAuxiliar);
+						LoadTable();
+						modo = "Navegar";
+						ManipulaInterface();
+						JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
+					}
+					aux = false;
+					
 				}
 			}
 				
@@ -701,6 +752,7 @@ public class Teste {
 				textField_Codigo.setText("");
 				modo = "Navegar";
 				ManipulaInterface();
+				aux = false;
 				
 			}
 			
