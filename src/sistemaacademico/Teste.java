@@ -1,6 +1,7 @@
 package sistemaacademico;
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Component;
@@ -62,8 +63,8 @@ public class Teste {
 	 */
 	
 	public void LoadTable() {
-		Object colunas[] = {"Código","Curso","Nome","Abreviação","Capacidade","Semestre","Ano"};
-		DefaultTableModel modelo = new DefaultTableModel(colunas,0); //DefaultTableModel é uma classe utilizada para alimentar a lista
+		Object colunas[] = {"CÃ³digo","Curso","Nome","AbreviaÃ§Ã£o","Capacidade","Semestre","Ano"};
+		DefaultTableModel modelo = new DefaultTableModel(colunas,0); //DefaultTableModel Ã© uma classe utilizada para alimentar a lista
 		
 		for(int i=0; i<Turmas.turmasCad.size();i++) {
 			modelo.addRow(new Object[] {Turmas.turmasCad.get(i).getCodigo(),Turmas.turmasCad.get(i).getCurso(),Turmas.turmasCad.get(i).getNomeCompleto(),Turmas.turmasCad.get(i).getNomeAbreviado(),Turmas.turmasCad.get(i).getCapacidade(),Turmas.turmasCad.get(i).getSemestre(),Turmas.turmasCad.get(i).getAno()});
@@ -146,8 +147,8 @@ public class Teste {
 	/**
 	 * ManipulaInterface
 	 * 
-	 * -Método responsável por habilitar e desabilitar os botões nos modos de interação com a interface. 
-	 * -Realiza também a troca de cores dos campos de texto para deixar claro que a textField não está disponível para interação
+	 * -MÃ©todo responsÃ¡vel por habilitar e desabilitar os botÃµes nos modos de interaÃ§Ã£o com a interface. 
+	 * -Realiza tambÃ©m a troca de cores dos campos de texto para deixar claro que a textField nÃ£o estÃ¡ disponÃ­vel para interaÃ§Ã£o
 	 */
 	public void ManipulaInterface() {
 		switch(modo) {
@@ -281,12 +282,12 @@ public class Teste {
 			break;
 			
 			
-		default: System.out.println("Modo inváldo");
+		default: System.out.println("Modo invÃ¡ldo");
 		}
 	}
 
 	/**
-	 * INICIALIZAÇÃO DOS COMPONENTES
+	 * INICIALIZAÃ‡ÃƒO DOS COMPONENTES
 	 */
 	private void initialize() {
 		frmTurmas = new JFrame();
@@ -300,8 +301,8 @@ public class Teste {
 		frmTurmas.getContentPane().setLayout(null);
 		
 		/**
-		 * INICIALIZAÇÃO DAS MÁSCARAS QUE IRÃO  SER UTILIZADAS NOS TEXTFIELD'S
-		 * -Mascaras são utilizadas para formatar o campo de texto da forma que quiser
+		 * INICIALIZAÃ‡ÃƒO DAS MÃSCARAS QUE IRÃƒO  SER UTILIZADAS NOS TEXTFIELD'S
+		 * -Mascaras sÃ£o utilizadas para formatar o campo de texto da forma que quiser
 		 */
 		MaskFormatter maskCurso = null;
 		MaskFormatter maskAno = null;
@@ -311,15 +312,15 @@ public class Teste {
 		MaskFormatter maskPesquisa = null;
 		
 		try {
-			maskCurso = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
-			maskAno = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
-			maskSemestre = new MaskFormatter("##"); //2 digitos numéricos são obrigatórios
-			maskCodigo = new MaskFormatter("####"); //4 digitos numéricos são obrigatórios
-			maskCapacidade = new MaskFormatter("###"); //3 digitos numéricos são obrigatórios
+			maskCurso = new MaskFormatter("####"); //4 digitos numÃ©ricos sÃ£o obrigatÃ³rios
+			maskAno = new MaskFormatter("####"); //4 digitos numÃ©ricos sÃ£o obrigatÃ³rios
+			maskSemestre = new MaskFormatter("##"); //2 digitos numÃ©ricos sÃ£o obrigatÃ³rios
+			maskCodigo = new MaskFormatter("####"); //4 digitos numÃ©ricos sÃ£o obrigatÃ³rios
+			maskCapacidade = new MaskFormatter("###"); //3 digitos numÃ©ricos sÃ£o obrigatÃ³rios
 			maskPesquisa = new MaskFormatter("####");
 			
 		} catch (ParseException e) {
-			System.err.println("Erro na formatação: " + e.getMessage());
+			System.err.println("Erro na formataÃ§Ã£o: " + e.getMessage());
 			System.exit(-1);
 			
 		}
@@ -395,7 +396,7 @@ public class Teste {
 		
 		
 		/**
-		 * PAINÉIS
+		 * PAINÃ‰IS
 		 */
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Dados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.RED));
@@ -412,7 +413,7 @@ public class Teste {
 		lblCurso.setBounds(16, 54, 46, 14);
 		panel.add(lblCurso);
 		
-		JLabel lblCodigo = new JLabel("Código:");
+		JLabel lblCodigo = new JLabel("CÃ³digo:");
 		lblCodigo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCodigo.setBounds(10, 32, 46, 14);
 		panel.add(lblCodigo);
@@ -422,7 +423,7 @@ public class Teste {
 		lblNome.setBounds(10, 106, 46, 14);
 		panel.add(lblNome);
 		
-		JLabel lblAbreviao = new JLabel("Abreviação:");
+		JLabel lblAbreviao = new JLabel("AbreviaÃ§Ã£o:");
 		lblAbreviao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAbreviao.setBounds(10, 138, 73, 14);
 		panel.add(lblAbreviao);
@@ -517,7 +518,7 @@ public class Teste {
 		textField_Semestre.setColumns(10);
 		
 		/**
-		 * BOTÕES
+		 * BOTÃ•ES
 		 */
 		
 		btnSalvar = new JButton("Salvar");
@@ -527,7 +528,7 @@ public class Teste {
 					try {
 						Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
 						turma.cadastrar();
-					} catch(NumberFormatException e) {//Como os textfield's são inicializados com "", ao tentar converter um campo que tem "" para inteiro, dá uma exceção do tipo NumberFormatException
+					} catch(NumberFormatException e) {//Como os textfield's sÃ£o inicializados com "", ao tentar converter um campo que tem "" para inteiro, dÃ¡ uma exceÃ§Ã£o do tipo NumberFormatException
 						JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
 					}
 					LoadTable();
@@ -542,7 +543,7 @@ public class Teste {
 						Turmas.turmasCad.get(index).setCurso(Integer.parseInt(textField_Curso.getText()));
 						Turmas.turmasCad.get(index).setNomeCompleto(textField_Nome.getText());
 						Turmas.turmasCad.get(index).setNomeAbreviado(textField_Abreviacao.getText());
-						JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
+						JOptionPane.showMessageDialog(null, "AlteraÃ§Ã£o feita com sucesso!");
 						LoadTable();
 					}
 					
@@ -633,7 +634,7 @@ public class Teste {
 					LoadTable();
 					modo = "Navegar";
 					ManipulaInterface();
-					JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
+					JOptionPane.showMessageDialog(null, "Turma excluÃ­da com sucesso!");
 				}
 			}
 				
