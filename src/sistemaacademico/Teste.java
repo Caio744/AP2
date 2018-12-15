@@ -46,12 +46,14 @@ public class Teste {
 	private JFormattedTextField textField_Capacidade;
 	private JFormattedTextField textField_Ano;
 	private JFormattedTextField textField_Semestre;
+	private JFormattedTextField textField_Pesquisar; 
 	private JButton btnNovo;
 	private JButton btnSalvar;
 	private JButton btnCancelar;
 	private JButton btnExcluir;
 	private JButton btnAlterar;
 	private JButton btnPesquisar;
+	private JButton btnAtualizar;
 	String modo;
 
 	
@@ -64,7 +66,7 @@ public class Teste {
 	 */
 	
 	public void LoadTable() {
-		Object colunas[] = {"CÃ³digo","Curso","Nome","AbreviaÃ§Ã£o","Capacidade","Semestre","Ano"};
+		Object colunas[] = {"Código","Curso","Nome","Abreviação","Capacidade","Semestre","Ano"};
 		DefaultTableModel modelo = new DefaultTableModel(colunas,0); //DefaultTableModel Ã© uma classe utilizada para alimentar a lista
 		
 		for(int i=0; i<Turmas.turmasCad.size();i++) {
@@ -145,12 +147,12 @@ public class Teste {
 		frmTurmas.getContentPane().add(textField_Pesquisar);
 	}
 	
-	/**
-	 * ManipulaInterface
-	 * 
-	 * -MÃ©todo responsÃ¡vel por habilitar e desabilitar os botÃµes nos modos de interaÃ§Ã£o com a interface. 
-	 * -Realiza tambÃ©m a troca de cores dos campos de texto para deixar claro que a textField nÃ£o estÃ¡ disponÃ­vel para interaÃ§Ã£o
-	 */
+//	/**
+//	 * ManipulaInterface
+//	 * 
+//	 * -MÃ©todo responsÃ¡vel por habilitar e desabilitar os botÃµes nos modos de interaÃ§Ã£o com a interface. 
+//	 * -Realiza tambÃ©m a troca de cores dos campos de texto para deixar claro que a textField nÃ£o estÃ¡ disponÃ­vel para interaÃ§Ã£o
+//	 */
 	public void ManipulaInterface() {
 		switch(modo) {
 		case "Navegar":
@@ -288,7 +290,7 @@ public class Teste {
 	}
 
 	/**
-	 * INICIALIZAÃ‡ÃƒO DOS COMPONENTES
+	 * INICIALIZAçãO DOS COMPONENTES
 	 */
 	private void initialize() {
 		frmTurmas = new JFrame();
@@ -302,8 +304,8 @@ public class Teste {
 		frmTurmas.getContentPane().setLayout(null);
 		
 		/**
-		 * INICIALIZAÃ‡ÃƒO DAS MÃSCARAS QUE IRÃƒO  SER UTILIZADAS NOS TEXTFIELD'S
-		 * -Mascaras sÃ£o utilizadas para formatar o campo de texto da forma que quiser
+		 * INICIALIZAçãO DAS MáSCARAS QUE IRÃO  SER UTILIZADAS NOS TEXTFIELD'S
+		 * Mascaras são utilizadas para formatar o campo de texto da forma que quiser
 		 */
 		MaskFormatter maskCurso = null;
 		MaskFormatter maskAno = null;
@@ -321,7 +323,7 @@ public class Teste {
 			maskPesquisa = new MaskFormatter("####");
 			
 		} catch (ParseException e) {
-			System.err.println("Erro na formataÃ§Ã£o: " + e.getMessage());
+			System.err.println("Erro na formatação.: " + e.getMessage());
 			System.exit(-1);
 			
 		}
@@ -414,7 +416,7 @@ public class Teste {
 		lblCurso.setBounds(16, 54, 46, 14);
 		panel.add(lblCurso);
 		
-		JLabel lblCodigo = new JLabel("CÃ³digo:");
+		JLabel lblCodigo = new JLabel("Código:");
 		lblCodigo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblCodigo.setBounds(10, 32, 46, 14);
 		panel.add(lblCodigo);
@@ -424,7 +426,7 @@ public class Teste {
 		lblNome.setBounds(10, 106, 46, 14);
 		panel.add(lblNome);
 		
-		JLabel lblAbreviao = new JLabel("AbreviaÃ§Ã£o:");
+		JLabel lblAbreviao = new JLabel("Abreviação:");
 		lblAbreviao.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblAbreviao.setBounds(10, 138, 73, 14);
 		panel.add(lblAbreviao);
@@ -518,22 +520,38 @@ public class Teste {
 		panel.add(textField_Semestre);
 		textField_Semestre.setColumns(10);
 		
+		textField_Pesquisar = new JFormattedTextField(maskPesquisa);
+		textField_Pesquisar.setBounds(690, 236, 60, 23);
+		frmTurmas.getContentPane().add(textField_Pesquisar);
+		textField_Pesquisar.setColumns(10);
+		
 		/**
 		 * BOTÃ•ES
 		 */
 		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(modo.equals("Novo")) {
-					try {
-						Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
-						turma.cadastrar();
-					} catch(NumberFormatException e) {//Como os textfield's sÃ£o inicializados com "", ao tentar converter um campo que tem "" para inteiro, dÃ¡ uma exceÃ§Ã£o do tipo NumberFormatException
-						JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
-					}
-					LoadTable();
-					JOptionPane.showMessageDialog(null, "Cadastro feita com sucesso!");
+	    btnSalvar.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent arg0) {
+	        int i = 0, j = 0;
+	        if(modo.equals("Novo")) {
+	          try {
+	            Turmas turma = new Turmas(Integer.parseInt(textField_Curso.getText()), Integer.parseInt(textField_Semestre.getText()), Integer.parseInt(textField_Codigo.getText()), textField_Nome.getText().trim(), textField_Abreviacao.getText().trim(), Integer.parseInt(textField_Ano.getText()), Integer.parseInt(textField_Capacidade.getText()));
+	            j = turma.retornar();
+	            turma.cadastrar();
+	            i = turma.retornar();
+	          } catch(NumberFormatException e) {//Como os textfield's são inicializados com "", ao tentar converter um campo que tem "" para inteiro, dá uma exceção do tipo NumberFormatException
+	            JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de salvar", "Erro", 1);
+	          }
+	          // Se o codigo for repetido esta mensagem nao pode ser comunicada.
+	          if (i == j) {
+	            LoadTable();
+	            JOptionPane.showMessageDialog(null, "Cadastro nao realizado.");
+	          }
+	          else {
+	            LoadTable();
+	            JOptionPane.showMessageDialog(null, "Cadastro feita com sucesso!");
+	          }
+	          
 				} else if (modo.equals("Alterar")) {
 					if((JOptionPane.showConfirmDialog(null, "Deseja alterar a turma selecionada?", null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) == JOptionPane.YES_OPTION) {
 						int index = table.getSelectedRow();
@@ -544,7 +562,7 @@ public class Teste {
 						Turmas.turmasCad.get(index).setCurso(Integer.parseInt(textField_Curso.getText()));
 						Turmas.turmasCad.get(index).setNomeCompleto(textField_Nome.getText());
 						Turmas.turmasCad.get(index).setNomeAbreviado(textField_Abreviacao.getText());
-						JOptionPane.showMessageDialog(null, "AlteraÃ§Ã£o feita com sucesso!");
+						JOptionPane.showMessageDialog(null, "Alteração feita com sucesso!");
 						LoadTable();
 					}
 					
@@ -618,6 +636,31 @@ public class Teste {
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int codigo = 0;
+				try{
+					codigo = Integer.parseInt(textField_Pesquisar.getText());
+					
+				}catch(NumberFormatException x) {
+					JOptionPane.showMessageDialog(null, "Por favor, informe um código.");
+				}
+				boolean x = false;
+				for(int i=0; i<Turmas.turmasCad.size(); i++) {
+					if(codigo == Turmas.turmasCad.get(i).getCodigo()) {
+						ArrayList <Turmas>  cad = new ArrayList<>();
+						cad.add(Turmas.turmasCad.get(i));
+						x = true;
+						Object colunas[] = {"Código","Curso","Nome","Abreviação","Capacidade","Semestre","Ano"};
+						DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
+						modelo.addRow(new Object[] {Turmas.turmasCad.get(i).getCodigo(),Turmas.turmasCad.get(i).getCurso(),Turmas.turmasCad.get(i).getNomeCompleto(),Turmas.turmasCad.get(i).getNomeAbreviado(),Turmas.turmasCad.get(i).getCapacidade(),Turmas.turmasCad.get(i).getSemestre(),Turmas.turmasCad.get(i).getAno()});
+						table.setModel(modelo);
+					}
+					modo = "Pesquisar";
+					ManipulaInterface();
+				}
+				if(x == false){
+					JOptionPane.showMessageDialog(null, "Turma não encontrada!");
+				}
+				textField_Pesquisar.setText("");
 			}
 		});
 		btnPesquisar.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -635,7 +678,7 @@ public class Teste {
 					LoadTable();
 					modo = "Navegar";
 					ManipulaInterface();
-					JOptionPane.showMessageDialog(null, "Turma excluÃ­da com sucesso!");
+					JOptionPane.showMessageDialog(null, "Turma excluída com sucesso!");
 				}
 			}
 				
@@ -643,5 +686,26 @@ public class Teste {
 		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnExcluir.setBounds(264, 221, 98, 38);
 		frmTurmas.getContentPane().add(btnExcluir);
+		
+		btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoadTable();
+				textField_Curso.setText("");
+				textField_Semestre.setText("");
+				textField_Ano.setText("");
+				textField_Capacidade.setText("");
+				textField_Nome.setText("");
+				textField_Abreviacao.setText("");
+				textField_Codigo.setText("");
+				modo = "Navegar";
+				ManipulaInterface();
+				
+			}
+			
+		});
+		btnAtualizar.setBounds(500, 236, 89, 23);
+		frmTurmas.getContentPane().add(btnAtualizar);
 	}
 }

@@ -3,6 +3,8 @@ package sistemaacademico;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Wanderley de Souza Alencar
@@ -83,12 +85,30 @@ public class Turmas extends Coisa {
 	
 	
 	
-	@Override
     public void cadastrar() {
-		turmasCad.add(this);
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        // Verificando se o codigo e unico.
+         int i;
+        
+         if (turmasCad.size() == 0)  {
+           // Se ha 0 turmas cadastradas nao ha necessidade de verificar.
+           turmasCad.add( this );
+         }
+         else {
+         turmasCad.add( this );
+         int aux = turmasCad.size();
+        for (i = 0; i < aux - 1; i++ ) {
+          if (turmasCad.get( i ).getCodigo() == turmasCad.get( aux -1 ).getCodigo()) {
+            JOptionPane.showMessageDialog( null, "Codigo ja utilizado." );
+            turmasCad.remove( aux - 1 );
+            return;
+          }
+        }
+         }
+        }
 
+    public int retornar () {
+        return turmasCad.size();
+      }
     @Override
     public void alterar(int codigo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
