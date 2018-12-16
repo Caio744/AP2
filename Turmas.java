@@ -111,8 +111,20 @@ public class Turmas extends Coisa {
    }
 
     @Override
-    public void alterar(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int alterar(int codigo) {
+       int i;
+       if (turmasCad.size() == 1) {
+         return 1;
+       }
+       else {   
+       for (i = 0; i < turmasCad.size(); i++ ) {
+         if (turmasCad.get( i ).getCodigo() == codigo) {
+           JOptionPane.showMessageDialog( null, "Codigo ja utilizado." );
+           return 0;
+         }
+       }
+      }
+       return 1;
     }
 
     @Override
