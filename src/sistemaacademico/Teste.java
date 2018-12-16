@@ -1,38 +1,27 @@
 package sistemaacademico;
-import java.awt.EventQueue;
-
-
-
-import javax.swing.JFrame;
 import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
-import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import java.awt.EventQueue;
 import java.awt.Font;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException; //Importe para a mascara
+
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import java.awt.SystemColor;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 
 public class Teste {

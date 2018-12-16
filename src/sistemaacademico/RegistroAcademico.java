@@ -44,7 +44,7 @@ public class RegistroAcademico extends Coisa {
     }
 
     @Override
-    public void alterar(int codigo) {
+    public int alterar(int codigo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
